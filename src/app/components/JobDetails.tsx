@@ -24,7 +24,9 @@ export default function JobDetails({jobTitle, companyName,jobDescription, toggle
                 <button onClick={toggleDrawer} className="text-white text-xl">X</button>
             </div>
             <p className="mt-2">{companyName}</p>
-            <JobDescription jobDescription={jobDescription} />
+            <div className="overflow-y-auto h-[calc(100%-50px)] pr-2 scrollbar-hidden">
+                <JobDescription jobDescription={jobDescription} />
+            </div>
         </div>
     )
 }
