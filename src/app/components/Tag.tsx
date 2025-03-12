@@ -1,5 +1,7 @@
 "use client";
 
+import replaceAmp from "../helper";
+
 interface Props {
     text: string;
     type: TagType;
@@ -59,7 +61,7 @@ export default function Tag({ text , type }: Props) {
       className={`${colorClasses.bg} ${colorClasses.text} text-xs font-medium me-2 px-2.5 py-0.5 rounded-2xl
                   ${colorClasses.darkBg} ${colorClasses.darkText}`}
     >
-      {text.toUpperCase().replace("&AMP;", "&")}
+      {replaceAmp(text).toUpperCase()}
     </span>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 import { Job, JobType } from "../api";
+import replaceAmp from "../helper";
 import Tag, { TagType } from "./Tag";
 import { FaLocationDot } from "react-icons/fa6";
 
@@ -18,7 +19,7 @@ export default function JobCard({data}:Props){
                 </div>
 
                 <div className="font-bold text-lg">
-                    {data.jobTitle}
+                    {replaceAmp(data.jobTitle)}
                 </div>
                 
                 <div className="font-light text-xs flex items-start mb-3 mt-1">
