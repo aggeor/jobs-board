@@ -14,7 +14,7 @@ export interface Job {
   companyName: string;
   companyLogo: string;
   jobIndustry: string[];
-  jobType: string[];
+  jobType: JobType[];
   jobGeo: string;
   jobLevel: string;
   jobExcerpt: string;
@@ -26,4 +26,10 @@ export async function fetchJobs(): Promise<JobData>{
     return fetch(BASE_URL)
         .then(response => response.json())
         .catch(error => console.error(error));
+}
+
+export enum JobType {
+    fullTime = "full-time",
+    contract = "contract",
+    internship = "internship"
 }

@@ -1,5 +1,6 @@
-
-import { Job } from "../api";
+"use client";
+import { Job, JobType } from "../api";
+import Tag, { TagType } from "./Tag";
 
 interface Props{
     data: Job
@@ -12,7 +13,7 @@ export default function JobCard({data}:Props){
             <a href={data.url} target="_blank" rel="noopener noreferrer">
                 
                 <div className="font-normal text-base">
-                    {data.companyName}
+                    {data.companyName} {data.jobIndustry.map((jobIndustry)=> <Tag key={data.id} type = { TagType.jobIndustry } text = { jobIndustry } />)}
                 </div>
 
                 <div className="font-bold text-lg">
@@ -21,7 +22,7 @@ export default function JobCard({data}:Props){
                 
                 
                 <div className="font-light text-xs">
-                    {data.jobGeo} {data.jobType.map((type)=> type.toUpperCase())}
+                    {data.jobGeo}  {data.jobType.map((type)=> <Tag key={data.id} type = { TagType.jobType } text = { type } />)}
                 </div>
             </a>
         </div>
