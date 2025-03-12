@@ -1,6 +1,6 @@
 "use client";
 
-import replaceAmp, { jobIndustryColorMap, jobTypeColorMap } from "../helper";
+import {replaceAmp, jobIndustryColorMap, jobTypeColorMap } from "../helper";
 
 interface Props {
     text: string;

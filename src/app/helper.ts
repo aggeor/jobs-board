@@ -1,6 +1,7 @@
 
+export {replaceAmp};
 
-export default function replaceAmp(text:string):string{
+function replaceAmp(text:string):string{
     return text.replace("&amp;", "&").replace("amp;","");
 }
 
