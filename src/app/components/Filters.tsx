@@ -1,5 +1,6 @@
-import { ChangeEvent, useState, useEffect } from "react";
+import { ChangeEvent, useState, useEffect, FormEvent } from "react";
 import FilterCheckbox from "./Checkbox";
+import SearchBar from "./Searchbar";
 
 
 interface FilterOption {
@@ -36,12 +37,34 @@ interface FiltersProps {
 
 function Filters({ filters, onFiltersChange }: FiltersProps) {
 
+  const [input, setInput] = useState("");
   const [jobTypesFilterState, setJobTypesFilterState] = useState(() =>
     jobTypeOptions.reduce((state, option) => {
       state[option.value] = filters.includes(option.value);
       return state;
     }, {} as Record<string, boolean>)
   );
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value);
+  };
+  
+  const handleSearchClear = () => {
+    setInput("");
+    onFiltersChange([]);
+  };
+
+    const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!input.trim()) {
+            return;
+        }
+        
+        const updatedFilters = input !== ""
+        ? [...filters, input]
+        : filters.filter((f) => f !== input);
+        onFiltersChange(updatedFilters);
+    };
 
   const [jobIndustryFilterState, setJobIndustryFilterState] = useState(() =>
     jobIndustryOptions.reduce((state, option) => {
@@ -73,9 +96,17 @@ function Filters({ filters, onFiltersChange }: FiltersProps) {
   return (
     <div className="flex flex-col items-start m-4 justify-items-center">
         <div className="mb-2">
+            <SearchBar 
+                  onSubmit={handleSearchSubmit}
+                  onChange={handleSearchChange}
+                  onClear={handleSearchClear} 
+                  value={input}
+                  placeholder="Search for a job location" />
+        </div>
+        <div className="mb-2">
             <p>Type</p>
             {jobTypeOptions.map((option) => (
-                <div className="m-1">
+                <div key={option.value} className="m-1">
                     <FilterCheckbox
                         key={option.value}
                         value={option.value}
@@ -90,7 +121,7 @@ function Filters({ filters, onFiltersChange }: FiltersProps) {
         <div className="mb-2">
             <p>Industry</p>
             {jobIndustryOptions.map((option) => (
-                <div className="m-1">
+                <div key={option.value} className="m-1">
                     <FilterCheckbox
                         key={option.value}
                         value={option.value}
