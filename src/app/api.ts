@@ -1,5 +1,5 @@
  
-const BASE_URL = "https://jobicy.com/api/v2/remote-jobs/";
+const BASE_URL = "https://jobicy.com/api/v2/remote-jobs";
 
 export interface JobData {
   name: string;
@@ -26,6 +26,12 @@ export async function fetchJobs(): Promise<JobData>{
     return fetch(BASE_URL)
         .then(response => response.json())
         .catch(error => console.error(error));
+}
+
+export async function fetchJobsByTag(tag:string): Promise<JobData>{
+  return fetch(`${BASE_URL}?tag=${tag}`)
+      .then(response => response.json())
+      .catch(error => console.error(error));
 }
 
 export enum JobType {
