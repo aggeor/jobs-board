@@ -4,9 +4,11 @@ import JobCard from "./JobCard";
 interface Props {
   data: JobData;
   filters: string[];
+  setDetailsOpened: (detailsOpened:boolean)=>void;
+  hasBlackBackground:boolean;
 }
 
-export default function JobsList({ data, filters }: Props) {
+export default function JobsList({ data, filters, setDetailsOpened, hasBlackBackground }: Props) {
   const filteredJobs = data.jobs.filter((job) => {
     if (filters.length === 0) return true;
     const matchesIndustry = filters.some((filter)=>{
@@ -33,7 +35,7 @@ export default function JobsList({ data, filters }: Props) {
       {filteredJobs.length > 0 ? (
         filteredJobs.map((job) => (
           <li key={job.id}>
-            <JobCard data={job} />
+            <JobCard data={job} setDetailsOpened={setDetailsOpened} hasBlackBackground={hasBlackBackground} />
           </li>
         ))
       ) : (

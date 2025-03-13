@@ -9,18 +9,24 @@ import JobDetails from "./JobDetails";
 
 interface Props {
     data: Job;
+    setDetailsOpened: (detailsOpened:boolean)=>void
+    hasBlackBackground: boolean;
 }
 
 
-export default function JobCard({ data }: Props) {
+export default function JobCard({ data, setDetailsOpened, hasBlackBackground }: Props) {
     const date = data.pubDate.toLocaleString();
     const [showDetails, setShowDetails] = useState(false);
-    const toggleDrawer = () => setShowDetails(!showDetails);
+    const toggleDrawer = () =>
+    {
+        setShowDetails(!showDetails);
+        setDetailsOpened(!showDetails);
+    };
     return (
         <div className="flex items-center m-2 bg-linear-to-r from-gray-900 via-gray-800 to-gray-500 rounded-2xl p-4">
             <img className="w-16 h-16 max-w-full rounded-2xl" src={data.companyLogo} alt="jobImg" />
             
-            <div className="ml-3 flex flex-col w-full">
+            <div className={`ml-3 flex flex-col w-full ${!showDetails && hasBlackBackground ? 'opacity-50':''}`}>
                 <button onClick={toggleDrawer}>
                     
                     <div className="font-normal text-base flex items-center">
@@ -49,7 +55,9 @@ export default function JobCard({ data }: Props) {
                 </button>
             </div>
             {showDetails && 
-                <JobDetails jobDescription={data.jobDescription} jobTitle={data.jobTitle} companyName={data.companyName} toggleDrawer={ toggleDrawer} />
+                <div className="absolute top-0 left-0 w-full h-screen z-50 opacity-100">
+                    <JobDetails jobDescription={data.jobDescription} jobTitle={data.jobTitle} companyName={data.companyName} toggleDrawer={ toggleDrawer} />
+                </div>
             }
         </div>
     );

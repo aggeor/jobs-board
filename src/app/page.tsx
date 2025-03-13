@@ -11,6 +11,7 @@ export default function App() {
   const initialData = useRef<JobData | null>(null);
   const [input, setInput] = useState("");
   const [filters, setFilters] = useState<string[]>([]);
+  const [hasBlackBackground, setHasBlackBackground] = useState(false);
 
   useEffect(() => {
     fetchJobs().then((json) => {
@@ -43,9 +44,21 @@ export default function App() {
     setFilters(updatedFilters); // Update the filters in the parent
   };
 
+  const setDetailsOpened = (showDetails:boolean)=>{
+    setHasBlackBackground(showDetails);
+  }
+
+  useEffect(() => {
+    if (hasBlackBackground) {
+      document.body.classList.add("overflow-hidden"); // Disable scroll
+    } else {
+      document.body.classList.remove("overflow-hidden"); // Enable scroll
+    }
+  }, [hasBlackBackground]);
+
   return (
-    <div className="h-screen flex flex-col">
-      <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 shadow-md">
+    <div className="h-screen flex flex-col ">
+      <div className={`sticky top-0 z-10 bg-white dark:bg-gray-900 shadow-md ${hasBlackBackground ? 'opacity-50':''}`}>
         <h1 className="text-center mt-6 text-4xl font-extrabold tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
           Remote Jobs
         </h1>
@@ -65,12 +78,12 @@ export default function App() {
       </div>
 
       <div className="flex flex-grow scrollbar-hidden">
-        <div className="w-1/3 sticky top-0 bg-gray-100 dark:bg-gray-800 p-4">
+        <div className={`w-1/3 sticky top-0 bg-gray-100 dark:bg-gray-800 p-4 ${hasBlackBackground ? 'opacity-50':''}`}>
           <Filters filters={filters} onFiltersChange={handleFiltersChange} />
         </div>
 
         <div className="w-2/3 overflow-auto max-h-screen p-4 scrollbar-hidden">
-          {data ? <JobsList data={data} filters={filters} /> : <p>Loading...</p>}
+          {data ? <JobsList data={data} filters={filters} setDetailsOpened={setDetailsOpened} hasBlackBackground={hasBlackBackground} /> : <p>Loading...</p>}
         </div>
       </div>
     </div>
