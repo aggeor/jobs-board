@@ -32,3 +32,27 @@ body {
 .scrollbar-hidden {
   scrollbar-width: none; /* Firefox */
 }
+
+.job-description h2 {
+  @apply text-2xl font-bold mt-4 mb-2 text-gray-900 dark:text-white;
+}
+
+.job-description h3 {
+  @apply text-xl font-semibold mt-3 mb-2 text-gray-800 dark:text-gray-300;
+}
+
+.job-description p {
+  @apply text-base leading-relaxed mt-2 mb-4 text-gray-700 dark:text-gray-300;
+}
+
+.job-description ul {
+  @apply list-disc pl-6 mt-2 mb-4 text-gray-700 dark:text-gray-300;
+}
+
+.job-description li {
+  @apply mb-2;
+}
+
+.job-description a {
+  @apply text-blue-500 hover:underline;
+}

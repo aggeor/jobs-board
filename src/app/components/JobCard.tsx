@@ -56,7 +56,14 @@ export default function JobCard({ data, setDetailsOpened, hasBlackBackground }: 
             </div>
             {showDetails && 
                 <div className="absolute top-0 left-0 w-full h-screen z-50 opacity-100">
-                    <JobDetails jobDescription={data.jobDescription} jobTitle={data.jobTitle} companyName={data.companyName} toggleDrawer={ toggleDrawer} />
+                    <JobDetails 
+                        jobDescription={data.jobDescription} 
+                        jobTitle={data.jobTitle} 
+                        companyName={data.companyName} 
+                        url={data.url} 
+                        companyLogo={data.companyLogo} 
+                        toggleDrawer={ toggleDrawer} 
+                    />
                 </div>
             }
         </div>
