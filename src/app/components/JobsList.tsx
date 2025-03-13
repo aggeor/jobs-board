@@ -9,6 +9,9 @@ interface Props {
 export default function JobsList({ data, filters }: Props) {
   const filteredJobs = data.jobs.filter((job) => {
     if (filters.length === 0) return true;
+    const matchesIndustry = filters.some((filter)=>{
+      return job.jobIndustry.includes(filter)
+    })
     const isFulltime = filters.includes("full-time")
       ? job.jobType.includes(JobType.fullTime)
       : false;
@@ -18,7 +21,7 @@ export default function JobsList({ data, filters }: Props) {
     const isContract = filters.includes("contract")
       ? job.jobType.includes(JobType.contract)
       : false;
-    return isFulltime || isInternship || isContract;
+    return isFulltime || isInternship || isContract || matchesIndustry;
   });
 
   return (

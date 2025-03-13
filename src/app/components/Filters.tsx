@@ -7,11 +7,27 @@ interface FilterOption {
     label: string;
 }
 
-const filterOptions: FilterOption[] = [
+const jobTypeOptions: FilterOption[] = [
   { value: "full-time", label: "Full-time" },
   { value: "internship", label: "Internship" },
   { value: "contract", label: "Contract" },
 ];
+
+const jobIndustryOptions: FilterOption[] = [
+    { value: "Software Engineering", label: "Software Engineering" },
+    { value: "Content &amp; Editorial", label: "Content & Editorial" },
+    { value: "DevOps &amp; Infrastructure", label: "DevOps & Infrastructure" },
+    { value: "Sales", label: "Sales" },
+    { value: "Technical Support", label: "Technical Support" },
+    { value: "Finance &amp; Accounting", label: "Finance & Accounting" },
+    { value: "Marketing &amp; Sales", label: "Marketing & Sales" },
+    { value: "Customer Success", label: "Customer Success" },
+    { value: "Data Science &amp; Analytics", label: "Data Science & Analytics" },
+    { value: "Web &amp; App Design", label: "Web & App Design" },
+    { value: "HR &amp; Recruiting", label: "HR & Recruiting" },
+    { value: "Legal &amp; Compliance", label: "Legal & Compliance" },
+    { value: "Business Development", label: "Business Development" },
+  ];
 
 interface FiltersProps {
   filters: string[];
@@ -20,12 +36,20 @@ interface FiltersProps {
 
 function Filters({ filters, onFiltersChange }: FiltersProps) {
 
-  const [filterState, setFilterState] = useState(() =>
-    filterOptions.reduce((state, option) => {
+  const [jobTypesFilterState, setJobTypesFilterState] = useState(() =>
+    jobTypeOptions.reduce((state, option) => {
       state[option.value] = filters.includes(option.value);
       return state;
     }, {} as Record<string, boolean>)
   );
+
+  const [jobIndustryFilterState, setJobIndustryFilterState] = useState(() =>
+    jobIndustryOptions.reduce((state, option) => {
+      state[option.value] = filters.includes(option.value);
+      return state;
+    }, {} as Record<string, boolean>)
+  );
+
 
   const handleFilterChange = (filter: string, isChecked: boolean) => {
     const updatedFilters = isChecked
@@ -34,25 +58,52 @@ function Filters({ filters, onFiltersChange }: FiltersProps) {
     onFiltersChange(updatedFilters);
   };
 
-  const handleCheckboxChange = (filter: string) => (event: ChangeEvent<HTMLInputElement>) => {
+  const handleJobTypeChange = (filter: string) => (event: ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
-    setFilterState((prevState) => ({ ...prevState, [filter]: isChecked }));
+    setJobTypesFilterState((prevState) => ({ ...prevState, [filter]: isChecked }));
+    handleFilterChange(filter, isChecked);
+  };
+
+  const handleJobIndustryChange = (filter: string) => (event: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked;
+    setJobIndustryFilterState((prevState) => ({ ...prevState, [filter]: isChecked }));
     handleFilterChange(filter, isChecked);
   };
 
   return (
-    <div className="flex items-center m-4 justify-items-center">
-        {filterOptions.map((option) => (
-            <FilterCheckbox
-                key={option.value}
-                value={option.value}
-                label={option.label}
-                isChecked={filterState[option.value]}
-                onChange={handleCheckboxChange(option.value)}
-            />
-        ))}
+    <div className="flex flex-col items-start m-4 justify-items-center">
+        <div className="mb-2">
+            <p>Type</p>
+            {jobTypeOptions.map((option) => (
+                <div className="m-1">
+                    <FilterCheckbox
+                        key={option.value}
+                        value={option.value}
+                        label={option.label}
+                        isChecked={jobTypesFilterState[option.value]}
+                        onChange={handleJobTypeChange(option.value)}
+                    />
+                </div>
+            ))}
+        </div>
+
+        <div className="mb-2">
+            <p>Industry</p>
+            {jobIndustryOptions.map((option) => (
+                <div className="m-1">
+                    <FilterCheckbox
+                        key={option.value}
+                        value={option.value}
+                        label={option.label}
+                        isChecked={jobIndustryFilterState[option.value]}
+                        onChange={handleJobIndustryChange(option.value)}
+                    />
+                </div>
+            ))}
+        </div>
     </div>
   );
 }
 
 export default Filters;
+
