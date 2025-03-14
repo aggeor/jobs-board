@@ -1,5 +1,13 @@
  
-const BASE_URL = "https://jobicy.com/api/v2/remote-jobs";
+export const BASE_URL = "https://jobicy.com/api/v2/remote-jobs";
+
+export function getJobsURL(): string {
+  return BASE_URL;
+}
+
+export function getJobsByTagURL(tag: string): string {
+  return `${BASE_URL}?tag=${tag}`;
+}
 
 export interface JobData {
   name: string;
@@ -22,17 +30,6 @@ export interface Job {
   pubDate: Date;
 }
 
-export async function fetchJobs(): Promise<JobData>{
-    return fetch(BASE_URL)
-        .then(response => response.json())
-        .catch(error => console.error(error));
-}
-
-export async function fetchJobsByTag(tag:string): Promise<JobData>{
-  return fetch(`${BASE_URL}?tag=${tag}`)
-      .then(response => response.json())
-      .catch(error => console.error(error));
-}
 
 export enum JobType {
     fullTime = "full-time",

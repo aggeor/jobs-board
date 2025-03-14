@@ -1,43 +1,35 @@
 "use client";
 import { useState, useEffect, ChangeEvent, FormEvent, useRef } from "react";
 
-import { fetchJobs, fetchJobsByTag, JobData } from "./api";
 import JobsList from "./components/JobsList";
 import Searchbar from "./components/Searchbar";
 import Filters from "./components/Filters";
+import useFetchJobs from "./hooks/useFetchJobs";
 
 export default function App() {
-  const [data, setData] = useState<JobData | null>(null);
-  const initialData = useRef<JobData | null>(null);
+  const { data, loading, error, setSearchQuery } = useFetchJobs();
   const [input, setInput] = useState("");
   const [filters, setFilters] = useState<string[]>([]);
   const [hasBlackBackground, setHasBlackBackground] = useState(false);
-
-  useEffect(() => {
-    fetchJobs().then((json) => {
-      setData(json);
-      initialData.current = json;
-    });
-  }, []);
-
+  
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
     if (event.target.value === "") {
-      setData(initialData.current);
+      setSearchQuery(null);
     }
   };
 
   const handleSearchClear = () => {
     setInput("");
-    setData(initialData.current);
+    setSearchQuery(null);
   };
 
-  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSearchSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!input.trim()) {
       return;
     }
-    fetchJobsByTag(input).then((json) => setData(json));
+    setSearchQuery(input);
   };
 
   const handleFiltersChange = (updatedFilters: string[]) => {
